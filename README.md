@@ -1,2 +1,2 @@
-# Recepapp
+# Recipapp
 App for recip
