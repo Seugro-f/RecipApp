@@ -1,2 +1,2 @@
 # Recepapp
-App for recep
+App for recip
