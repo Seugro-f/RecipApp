@@ -1,0 +1,12 @@
+<Button>
+    size_hint: 0.5, 0.5
+
+<FloatLayout>:
+    Button:
+        size_hint: 0.2, 0.2
+        pos_hint: {"x":0.5, "top":0.5}
+        text: "RecipApp"
+
+    Button:
+        id: btn
+        text: "I hate Sam" if btn.state == "normal" else "Just kidding I despise him"
