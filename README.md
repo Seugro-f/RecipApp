@@ -1,3 +1,3 @@
-# Recipapp
+# RecipApp
 App for recip
 Such Commit
