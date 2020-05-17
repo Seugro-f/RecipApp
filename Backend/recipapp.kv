@@ -1,0 +1,134 @@
+<Label>
+    size_hint: 0.3, 0.2
+
+    canvas.before:
+        Color:
+            rgba: 0,0,0,1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+<TextInput>
+    size_hint: 0.3, 0.2
+
+<Button>
+    size_hint: 0.4, 0.2
+
+
+WindowManager:
+    MainScreen:
+    NewUserScreen:
+    LoginScreen:
+    RecipeScreen:
+
+
+<MainScreen>
+    name: "mainScreen"
+
+    Button:
+        pos_hint: {'x': 0.3, 'y':0.55}
+        text: "Log in"
+        on_release:
+            app.root.current = "loginmain"
+
+    Button:
+        pos_hint: {'x': 0.3, 'y': 0.25}
+        text: "New User"
+        on_release:
+            app.root.current = "newuser"
+
+<NewUserScreen>:
+    newUser: newUser
+    newPass: newPass
+    name: "newuser"
+
+    canvas:
+        Color:
+            rgba: 0.3,0.5,0.2,1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+
+    FloatLayout:
+
+        Label:
+            pos_hint: {'x': 0.2, 'y':0.55}
+            font_size: 40
+            text: "Username: "
+
+        TextInput:
+            pos_hint: {'x': 0.5, 'y':0.55}
+            id: newUser
+            multiline: False
+
+        Label:
+            pos_hint: {'x': 0.2, 'y':0.35}
+            text: "Password: "
+            font_size: 40
+
+        TextInput:
+            pos_hint: {'x': 0.5, 'y':0.35}
+            id: newPass
+            multiline: False
+
+        Button:
+            text: "Create Account"
+            size_hint: 0.2, 0.1
+            pos_hint: {'x':0.4, 'y': 0.25}
+            on_release:
+                root.btnNewUser()
+                app.root.current = "loginmain"
+                root.manager.transition.direction = "left"
+
+<LoginScreen>:
+    userN: usrname
+    passW: password
+    name: "loginmain"
+
+    canvas:
+        Color:
+            rgba: 0.3,0.5,0.2,1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+
+    FloatLayout:
+
+        Label:
+            pos_hint: {'x': 0.2, 'y':0.55}
+            font_size: 40
+            text: "Username: "
+
+        TextInput:
+            pos_hint: {'x': 0.5, 'y':0.55}
+            id: usrname
+            multiline: False
+
+        Label:
+            pos_hint: {'x': 0.2, 'y':0.35}
+            text: "Password: "
+            font_size: 40
+
+        TextInput:
+            pos_hint: {'x': 0.5, 'y':0.35}
+            id: password
+            multiline: False
+
+        Button:
+            text: "Submit"
+            size_hint: 0.2, 0.1
+            pos_hint: {'x':0.4, 'y': 0.25}
+            on_release:
+                app.root.current = "recipes" if root.btnSubmit() else "loginmain"
+                root.manager.transition.direction = "left"
+
+<RecipeScreen>:
+    name: "recipes"
+
+    Button:
+        text: "Fok, Go back"
+        on_release:
+            app.root.current = "loginmain"
+            root.manager.transition.direction = "right"
