@@ -11,8 +11,9 @@ dynamodb = boto3.resource('dynamodb')
 table = dynamodb.Table('wiskUsers')
 
 
-# Function to check username and password of user with AWS database
+# Function to check username and password of user with AWS wiskUsers table
 def usercheck(userID, userPass):
+    # Generate variables for while/for loops to initialize
     userMatch = []
     userExist = False
 
@@ -24,26 +25,46 @@ def usercheck(userID, userPass):
     for i in userInfo['Items']:
         userMatch.append(i['userPass'])
 
-    if not userMatch:
-        print("The username doesn't exist")
-
+    # Check if the username/password combination exists, otherwise returns logic value used in kv file
+    if not userMatch or userMatch[0] != userPass:
+        print("The username/password is wrong")
     else:
-        if userMatch[0] != userPass:
-            print("Wrong Password")
-        else:
-            userExist = True
+        userExist = True
 
+    # Returns logic value used for if statement in kv file for NewUserScreern on button release action
     return userExist
 
 
-# Creating a new item in the AWS server for new user
+# Function to add new user to AWS wiskUsers table
 def newuser(userID, userPass):
-    table.put_item(
-        Item={
-            'userID': userID,
-            'userPass': userPass
-        }
+
+    # Generate variables for while/for loops to initialize
+    userMatch = []
+    newUserComp = False
+
+    # Scan the AWS dynamodb "wiskUsers" table for existing user
+    userInfo = table.query(
+        KeyConditionExpression=Key('userID').eq(userID)
     )
+
+    # Append existing usernames into userMatch
+    for i in userInfo['Items']:
+        userMatch.append(i['userID'])
+
+    # If statement so that new user is created if username doesn't already exist
+    if userMatch:
+        newUserComp = True
+        userExistText = True
+
+    else:
+        table.put_item(
+            Item={
+                'userID': userID,
+                'userPass': userPass
+            }
+        )
+    # Returns logic value used for if statement in kv file for NewUserScreern on button release action
+    return newUserComp
 
 
 class MainScreen(Screen):
@@ -51,19 +72,25 @@ class MainScreen(Screen):
 
 
 class NewUserScreen(Screen):
+    # Define new user function for button to be used in NewUserScreen window
     def btnNewUser(self):
         userName = self.newUser.text
         passWord = self.newPass.text
-        newuser(userName, passWord)
+        newUserComp = newuser(userName, passWord)
+
+        # Returns logic value used for if statement of button defined in kv file
+        return newUserComp
 
 
 class LoginScreen(Screen):
 
+    # define user check function for button to be used in LoginScreen Window
     def btnSubmit(self):
         userName = self.userN.text
         passWord = self.passW.text
         userExist = usercheck(userName, passWord)
 
+        # Returns logic value used for if statement of button defined in kv file
         return userExist
 
 

@@ -1,18 +1,24 @@
 <Label>
-    size_hint: 0.3, 0.2
-
+    size_hint: 0.3, 0.1
     canvas.before:
         Color:
-            rgba: 0,0,0,1
+            rgba: 1,0.2638,0.2638,1
         Rectangle:
             pos: self.pos
             size: self.size
 
 <TextInput>
-    size_hint: 0.3, 0.2
+    size_hint: 0.6, 0.1
+    font_size: 24
+    font_name: 'arial'
+    multiline: False
+    padding: [10, (self.height-self.line_height)/2]
 
 <Button>
-    size_hint: 0.4, 0.2
+    size_hint: 0.6, 0.1
+    allow_stretch: False
+    background_disabled_normal: "newlogBtn.png"
+
 
 
 WindowManager:
@@ -25,15 +31,41 @@ WindowManager:
 <MainScreen>
     name: "mainScreen"
 
+    # Changes the background color of the window
+    canvas:
+        Color:
+            rgba: 1,0.2638,0.2638,1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+    Label:
+        text: "Wisk"
+        font_size: 60
+        font_name: 'ariblk'
+        pos_hint: {'x': 0.34, 'y': 0.63}
+
+    Label:
+        text: "Wanna share your scrumptious\nrecipes with your amiogs?\nJoin wisk now!"
+        font_size: 14
+        font_name: 'arial'
+        pos_hint: {'x': 0.34, 'y': 0.5}
+        halign: 'center'
+
     Button:
-        pos_hint: {'x': 0.3, 'y':0.55}
-        text: "Log in"
+        # Gives the button the background image inside ''
+        background_normal: 'mainBtn1.png'
+        pos_hint: {'x': 0.2, 'y':0.36}
+        text: "Sign In"
+        color: 1,0.2638,0.2638,1
         on_release:
             app.root.current = "loginmain"
 
     Button:
-        pos_hint: {'x': 0.3, 'y': 0.25}
-        text: "New User"
+        # Gives the button the background image inside ''
+        background_normal: 'mainBtn2.png'
+        pos_hint: {'x': 0.2, 'y': 0.23}
+        text: "Create an Account"
         on_release:
             app.root.current = "newuser"
 
@@ -44,7 +76,7 @@ WindowManager:
 
     canvas:
         Color:
-            rgba: 0.3,0.5,0.2,1
+            rgba: 1,1,1,1
         Rectangle:
             size: self.size
             pos: self.pos
@@ -53,32 +85,54 @@ WindowManager:
     FloatLayout:
 
         Label:
-            pos_hint: {'x': 0.2, 'y':0.55}
-            font_size: 40
-            text: "Username: "
-
-        TextInput:
-            pos_hint: {'x': 0.5, 'y':0.55}
-            id: newUser
-            multiline: False
+            canvas.before:
+                Color:
+                    rgba: 1,1,1,1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            color: 0,0,0,1
+            text: "Create Account"
+            font_size: 50
+            font_name: 'ariblk'
+            pos_hint: {'x': 0.34, 'y': 0.75}
 
         Label:
-            pos_hint: {'x': 0.2, 'y':0.35}
-            text: "Password: "
-            font_size: 40
+            canvas.before:
+                Color:
+                    rgba: 1,1,1,1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            text: "After signing in you can start\nsharing your recipes"
+            color: 0,0,0,1
+            font_size: 14
+            font_name: 'arial'
+            pos_hint: {'x': 0.34, 'y': 0.65}
+            halign: 'center'
 
         TextInput:
-            pos_hint: {'x': 0.5, 'y':0.35}
+            pos_hint: {'x': 0.2, 'y':0.52}
+            id: newUser
+            hint_text: "Username"
+
+        TextInput:
+            pos_hint: {'x': 0.2, 'y':0.4}
             id: newPass
-            multiline: False
+            hint_text: "Password"
+            # Hides the password shown on window
+            password: True
 
         Button:
             text: "Create Account"
-            size_hint: 0.2, 0.1
-            pos_hint: {'x':0.4, 'y': 0.25}
+            # Gives the button the background image inside ''
+            background_normal: "newlogBtn.png"
+            pos_hint: {'x':0.2, 'y': 0.25}
+            # disables button if nothing is written on username or password text input widgets
+            disabled: not newUser.text or not newPass.text
             on_release:
-                root.btnNewUser()
-                app.root.current = "loginmain"
+                #Changes current window depending on btnNewUser returned logic
+                app.root.current = "newuser" if root.btnNewUser() else "loginmain"
                 root.manager.transition.direction = "left"
 
 <LoginScreen>:
@@ -88,47 +142,71 @@ WindowManager:
 
     canvas:
         Color:
-            rgba: 0.3,0.5,0.2,1
+            rgba: 1,1,1,1
         Rectangle:
             size: self.size
             pos: self.pos
 
-
     FloatLayout:
 
         Label:
-            pos_hint: {'x': 0.2, 'y':0.55}
-            font_size: 40
-            text: "Username: "
-
-        TextInput:
-            pos_hint: {'x': 0.5, 'y':0.55}
-            id: usrname
-            multiline: False
+            canvas.before:
+                Color:
+                    rgba: 1,1,1,1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            color: 0,0,0,1
+            text: "Log In"
+            font_size: 50
+            font_name: 'ariblk'
+            pos_hint: {'x': 0.34, 'y': 0.75}
 
         Label:
-            pos_hint: {'x': 0.2, 'y':0.35}
-            text: "Password: "
-            font_size: 40
+            canvas.before:
+                Color:
+                    rgba: 1,1,1,1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            text: "After signing in you can start\nsharing your recipes"
+            color: 0,0,0,1
+            font_size: 14
+            font_name: 'arial'
+            pos_hint: {'x': 0.34, 'y': 0.65}
+            halign: 'center'
 
         TextInput:
-            pos_hint: {'x': 0.5, 'y':0.35}
+            pos_hint: {'x': 0.2, 'y':0.52}
+            id: usrname
+            hint_text: "Username"
+
+        TextInput:
+            pos_hint: {'x': 0.2, 'y':0.4}
             id: password
-            multiline: False
+            hint_text: "Password"
+            # Hides the password shown on window
+            password: True
 
         Button:
-            text: "Submit"
-            size_hint: 0.2, 0.1
-            pos_hint: {'x':0.4, 'y': 0.25}
+            text: "Sign In"
+            # Gives the button the background image inside ''
+            background_normal: "newlogBtn.png"
+            pos_hint: {'x':0.2, 'y': 0.25}
+            # disables button if nothing is written on username or password text input widgets
+            disabled: not usrname.text or not password.text
             on_release:
+                #Changes current window depending on btnNewUser returned logic
                 app.root.current = "recipes" if root.btnSubmit() else "loginmain"
                 root.manager.transition.direction = "left"
+                usrname.text = ""
+                password.text = ""
 
 <RecipeScreen>:
     name: "recipes"
 
     Button:
-        text: "Fok, Go back"
+        text: "Go back"
         on_release:
             app.root.current = "loginmain"
             root.manager.transition.direction = "right"
