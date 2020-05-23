@@ -136,8 +136,8 @@ WindowManager:
                 root.manager.transition.direction = "left"
 
 <LoginScreen>:
-    userN: usrname
-    passW: password
+    existUser: existUser
+    existPass: existPass
     name: "loginmain"
 
     canvas:
@@ -178,12 +178,12 @@ WindowManager:
 
         TextInput:
             pos_hint: {'x': 0.2, 'y':0.52}
-            id: usrname
+            id: existUser
             hint_text: "Username"
 
         TextInput:
             pos_hint: {'x': 0.2, 'y':0.4}
-            id: password
+            id: existPass
             hint_text: "Password"
             # Hides the password shown on window
             password: True
@@ -194,13 +194,13 @@ WindowManager:
             background_normal: "newlogBtn.png"
             pos_hint: {'x':0.2, 'y': 0.25}
             # disables button if nothing is written on username or password text input widgets
-            disabled: not usrname.text or not password.text
+            disabled: not existUser.text or not existPass.text
             on_release:
                 #Changes current window depending on btnNewUser returned logic
                 app.root.current = "recipes" if root.btnSubmit() else "loginmain"
                 root.manager.transition.direction = "left"
-                usrname.text = ""
-                password.text = ""
+                existUser.text = ""
+                existPass.text = ""
 
 <RecipeScreen>:
     name: "recipes"

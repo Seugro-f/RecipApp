@@ -86,8 +86,8 @@ class LoginScreen(Screen):
 
     # define user check function for button to be used in LoginScreen Window
     def btnSubmit(self):
-        userName = self.userN.text
-        passWord = self.passW.text
+        userName = self.existUser.text
+        passWord = self.existPass.text
         userExist = usercheck(userName, passWord)
 
         # Returns logic value used for if statement of button defined in kv file
@@ -102,14 +102,14 @@ class WindowManager(ScreenManager):
     pass
 
 
-kv = Builder.load_file("recipapp.kv")
+kv = Builder.load_file("wisk.kv")
 
 
-class RecipappApp(App):
+class wiskApp(App):
 
     def build(self):
         return kv
 
 
 if __name__ == '__main__':
-    RecipappApp().run()
+    wiskApp().run()
